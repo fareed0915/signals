@@ -1,24 +1,90 @@
-/* hello_signal.c */
+
 #include <stdio.h>
+
+
+
+
 #include <stdlib.h>
+
+
 #include <signal.h>
+
+
 #include <unistd.h>
-#include "timer.h"
 
-void handler(int signum)
-{ //signal handler
-  printf("Hello World!\n");
-  increment_alarm();
+
+
+
+
+
+
+
+
+
+
+int x = 0;
+
+
+
+
+
+
+
+void handler(int signum) { 
+
+
+	printf("Hello World!\n");
+
+
+	x = 1;
+
+
+	alarm(1); 
+
+
 }
 
-int main(int argc, char * argv[])
-{
-  signal(SIGALRM,handler); //register handler to handle SIGALRM
-  signal(SIGALRM,handler); // Register handler to handle SIGALRM.
-  while(1){
-    alarm(1); // Schedule a SIGALRM for 1 second.
-    sleep(1);
-    printf("Turing was right!\n");
-}
-  return 0; //never reached
+
+
+
+
+
+
+int main(int argc, char * argv[]) {
+
+
+ signal(SIGALRM, handler); 
+
+
+ alarm(1); //SIGALRM for 1 second
+
+
+
+
+
+
+
+ while(1) {
+
+
+   while(x == 0); 
+
+
+   printf("The turing was right!\n");
+
+
+   x = 0;
+
+
+ }
+
+
+
+
+
+
+
+ return 0; //not reached
+
+
 }
