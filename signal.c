@@ -1,90 +1,44 @@
-
+/* hello_signal.c */
 #include <stdio.h>
-
-
-
-
 #include <stdlib.h>
-
-
 #include <signal.h>
-
-
 #include <unistd.h>
+#include <time.h>
+#include <stdbool.h>
+#include "timer.h"
 
 
+bool t = true;
 
-
-
-
-
-
-
-
-
-int x = 0;
-
-
-
-
-
-
-
-void handler(int signum) { 
-
-
-	printf("Hello World!\n");
-
-
-	x = 1;
-
-
-	alarm(1); 
-
-
+void handler(int signum)
+{ //signal handler
+  printf("Hello World!\n");
+  t=false;
+  numOfAlarms++;
+  alarm(1);
+ 
+  //exit(1); //exit after printing
 }
-
-
-
-
-
-
-
-int main(int argc, char * argv[]) {
-
-
- signal(SIGALRM, handler); 
-
-
- alarm(1); //SIGALRM for 1 second
-
-
-
-
-
-
-
- while(1) {
-
-
-   while(x == 0); 
-
-
-   printf("The turing was right!\n");
-
-
-   x = 0;
-
-
- }
-
-
-
-
-
-
-
- return 0; //not reached
-
-
+ 
+int main(int argc, char * argv[])
+{
+ 
+  signal(SIGALRM,handler); 
+  signal(SIGINT, signal_handler);
+  numOfAlarms++;
+  alarm(1);
+  
+  while(1){
+    
+    while(t == true){
+    //alarm(1); //Schedule a SIGALRM for 1 second
+    }
+    printf("Turing was right!\n");  
+    t=true;
+    
+    
+  } //busy wait for signal to be delivered
+  
+  printf("Turing was right!\n");
+  return 0; //never reached
 }
